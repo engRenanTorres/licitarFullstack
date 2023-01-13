@@ -1,0 +1,3 @@
+FROM mysql:8.0-debian
+
+RUN MYSQL_ROOT_PASSWORD: babu11

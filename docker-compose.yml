@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0-debian
+    container_name: engconcmysql
+    networks:
+      - development-network
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: babu11
+    volumes:
+      - ~/dev/docker/volumes/engconcurso:/var/lib/mysql
+    tty: true
+    ports:
+      - 5200:3306
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: engconcdb-pgadmin
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com 
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - 8002:80
+    depends_on:
+      - db
+  app:
+    build: .
+    #entrypoint: .docker/entrypoint.sh
+    container_name: engconcBackend
+    ports:
+      - 3000:3000
+    volumes:
+      - ~/dev/docker/volumes/engconcurso:/home/node/app
+    depends_on:
+      - db
+    networks:
+      - development-network
+networks:
+  development-network:
+    driver: bridge
