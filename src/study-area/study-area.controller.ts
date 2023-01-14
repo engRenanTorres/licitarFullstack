@@ -10,7 +10,9 @@ import {
 import { StudyAreaService } from './study-area.service';
 import { CreateStudyAreaDto } from './dto/create-study-area.dto';
 import { UpdateStudyAreaDto } from './dto/update-study-area.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Study Area')
 @Controller('study-area')
 export class StudyAreaController {
   constructor(private readonly studyAreaService: StudyAreaService) {}

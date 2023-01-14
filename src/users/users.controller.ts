@@ -18,12 +18,17 @@ import { UseGuards } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from './entities/role.enum';
-import { ApiBearerAuth, ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('api/users')
-//@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 @ApiForbiddenResponse({ description: 'Access denied.' })
-//@Roles(Role.AdmMT, Role.Dev)
+@Roles(Role.AdmMT, Role.Dev)
 @ApiTags('Users')
 @ApiBearerAuth('jwt')
 export class UsersController {

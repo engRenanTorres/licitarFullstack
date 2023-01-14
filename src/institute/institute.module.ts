@@ -9,6 +9,6 @@ import { instituteProviders } from './institute.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [InstituteController],
-  providers: [InstituteService,...instituteProviders],
+  providers: [InstituteService, ...instituteProviders],
 })
 export class InstituteModule {}

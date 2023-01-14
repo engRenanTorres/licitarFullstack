@@ -29,7 +29,7 @@ export class RolesGuard implements CanActivate {
       });
     }
     //verifica se a autoridade de acesso do usuário
-    if( userData ) return requiredRoles.some((role) => userData.role === role);
+    if (userData) return requiredRoles.some((role) => userData.role === role);
     return false;
   }
 }

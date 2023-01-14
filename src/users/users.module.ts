@@ -11,7 +11,11 @@ import { userProviders } from './users.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [UsersController],
-  providers: [UsersService, ...userProviders, { provide: APP_GUARD, useClass: RolesGuard }],
+  providers: [
+    UsersService,
+    ...userProviders,
+    { provide: APP_GUARD, useClass: RolesGuard },
+  ],
   exports: [UsersService],
 })
 export class UsersModule {}

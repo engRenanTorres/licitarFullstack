@@ -7,6 +7,6 @@ import { studyAreaProviders } from './study-area.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [StudyAreaController],
-  providers: [StudyAreaService,...studyAreaProviders],
+  providers: [StudyAreaService, ...studyAreaProviders],
 })
 export class StudyAreaModule {}

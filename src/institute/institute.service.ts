@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 export class InstituteService {
   constructor(
     @Inject('INSTITUTE_REPOSITORY')
-    private readonly instituteRepository: Repository<Institute>
-  ){}
+    private readonly instituteRepository: Repository<Institute>,
+  ) {}
   create(createInstituteDto: CreateInstituteDto) {
     return 'This action adds a new institute';
   }
