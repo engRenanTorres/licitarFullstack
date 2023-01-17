@@ -19,8 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:e2e": "docker-compose up -d dbtest",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "posttest:e2e": "docker-compose stop -d dbtest && docker-compose rm -f dbtest"
+    "test:e2e": "NODE_ENV=test && jest --config ./test/jest-e2e.json",
+    "posttest:e2e": "docker-compose stop dbtest && docker-compose rm -f dbtest && NODE_ENV=dev"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
