@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, Matches } from 'class-validator';
-import { MessagesHelper } from 'src/helpers/message.helper';
-import { RegexHelper } from 'src/helpers/regex.helper';
+import { MessagesHelper } from '../../helpers/message.helper';
+import { RegexHelper } from '../../helpers/regex.helper';
 import { Role } from '../entities/role.enum';
 import { ApiProperty } from '@nestjs/swagger';
 

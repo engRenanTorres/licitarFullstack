@@ -3,17 +3,16 @@ import { CreateStudyAreaDto } from './dto/create-study-area.dto';
 import { UpdateStudyAreaDto } from './dto/update-study-area.dto';
 import { StudyArea } from './entities/study-area.entity';
 import { Repository } from 'typeorm';
-import { MessagesHelper } from 'src/helpers/message.helper';
+import { MessagesHelper } from '../helpers/message.helper';
 
 @Injectable()
 export class StudyAreaService {
-  constructor(
-    @Inject('STUDY-AREA_REPOSITORY')
-    private readonly studyAreaResposity: Repository<StudyArea>,
-  ) {}
-  create(createStudyAreaDto: CreateStudyAreaDto) {
+  @Inject('STUDY-AREA_REPOSITORY')
+  private readonly studyAreaResposity: Repository<StudyArea>;
+
+  async create(createStudyAreaDto: CreateStudyAreaDto) {
     const studyArea = this.studyAreaResposity.create(createStudyAreaDto);
-    return this.studyAreaResposity.save(studyArea);
+    return await this.studyAreaResposity.save(studyArea);
   }
 
   async findAll() {

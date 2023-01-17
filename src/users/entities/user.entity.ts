@@ -43,4 +43,12 @@ export class User {
   hasPassword() {
     this.senha = hashSync(this.senha, 10);
   }
+  constructor(
+    nome: string,
+    matricula: string,
+    email: string,
+    senha: string,
+    login: string,
+    roles: Role,
+  ) {}
 }

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   db:
@@ -8,12 +8,13 @@ services:
       - development-network
     restart: always
     environment: 
-      MYSQL_ROOT_PASSWORD: babu11
+      MYSQL_ROOT_PASSWORD: process.env.DB_PASS
     volumes:
       - ~/dev/docker/volumes/engconcurso:/var/lib/mysql
     tty: true
     ports:
       - 5200:3306
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: engconcdb-pgadmin
@@ -25,6 +26,24 @@ services:
       - 8002:80
     depends_on:
       - db
+
+  dbtest:
+    image: mysql:8.0-debian
+    container_name: engconcmysqltest
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: mysqltests
+      MYSQL_TCP_PORT: 3306
+      MYSQL_USER: tests
+      MYSQL_PASSWORD: password
+    volumes:
+      - .docker/volumes/dbdatatests:/var/lib/mysql
+    tty: true
+    ports:
+      - 5201:3306
+    expose: 
+      - 3306
+
   app:
     build: .
     #entrypoint: .docker/entrypoint.sh

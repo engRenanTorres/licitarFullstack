@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { DataSource } from 'typeorm';
-import { CreateTable1673218477897 } from './migrations/1673218477897-CreateTable';
+import { CreateTable1673218477897 } from '../migrations/1673218477897-CreateTable';
 
 export const databaseProviders = [
   {

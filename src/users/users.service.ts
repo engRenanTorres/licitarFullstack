@@ -7,10 +7,8 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @Inject('USER_REPOSITORY')
-    private readonly usersRepository: Repository<User>,
-  ) {}
+  @Inject('USER_REPOSITORY')
+  private readonly usersRepository: Repository<User>;
 
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
@@ -19,7 +17,7 @@ export class UsersService {
   async findById(id: string): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id: Number(id) });
     this.checkIfUserExiste(user, id);
-    return this.usersRepository.findOneBy({ id: Number(id) });
+    return user;
   }
 
   async findBylogin(login: string): Promise<User> | null {
@@ -47,7 +45,9 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const user = await this.usersRepository.findOneBy({ id: Number(id) });
+    const user = await this.usersRepository.findOne({
+      where: { id: Number(id) },
+    });
     this.checkIfUserExiste(user, id);
     return await this.usersRepository.remove(user);
   }

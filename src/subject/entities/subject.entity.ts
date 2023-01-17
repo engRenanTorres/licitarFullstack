@@ -1,4 +1,4 @@
-import { StudyArea } from 'src/study-area/entities/study-area.entity';
+import { StudyArea } from '../../study-area/entities/study-area.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('subjects')
