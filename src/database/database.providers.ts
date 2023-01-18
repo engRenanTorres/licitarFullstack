@@ -18,8 +18,8 @@ export const databaseProviders = [
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: process.env.DB_TABLE,
-        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-        synchronize: true, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
+        entities: [join(__dirname,'..', '**', '*.entity.{ts,js}')],
+        //synchronize: true, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
         //migrationsTableName: 'TbMarTelecomMigrations', se precisar mudar o nome da tabela migrations
         //logging: true,
       });

@@ -1,5 +1,6 @@
 version: '3.3'
 
+#acessar o bash do app: docker-compose start  + docker-compose exec app bash
 services:
   db:
     image: mysql:8.0-debian
