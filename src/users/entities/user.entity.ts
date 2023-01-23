@@ -8,7 +8,7 @@ export class User {
   id: number;
   @Column({ name: 'cnpj_cliente', nullable: true })
   cnpjCliente: string;
-  @Column({ name: 'login', nullable: true })
+  @Column({ name: 'login', nullable: true, unique: true })
   login: string;
   @Column({ name: 'matricula', nullable: true })
   matricula: string;
@@ -18,7 +18,7 @@ export class User {
   cpf: string;
   @Column({ name: `telefone`, length: 101, nullable: true })
   telefone: string;
-  @Column({ name: `email`, nullable: true })
+  @Column({ name: `email`, nullable: true, unique: true })
   email: string;
   @Column({ name: 'senha', nullable: true })
   senha: string;
@@ -43,12 +43,4 @@ export class User {
   hasPassword() {
     this.senha = hashSync(this.senha, 10);
   }
-  constructor(
-    nome: string,
-    matricula: string,
-    email: string,
-    senha: string,
-    login: string,
-    roles: Role,
-  ) {}
 }

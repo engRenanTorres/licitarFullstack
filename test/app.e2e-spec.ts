@@ -22,7 +22,7 @@ describe('AppController (e2e)', () => {
 
   it('', () => {
     expect(1).toStrictEqual(1);
-  })
+  });
 
   // it('/ (GET)', () => {
   //   return request(app.getHttpServer())

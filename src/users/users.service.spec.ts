@@ -57,7 +57,7 @@ describe('UsersService', () => {
         login: 'usuariot',
         roles: Role.AdmMT,
       };
-  
+
       const updateeUserDTO: UpdateUserDto = {
         nome: 'Usuario Teste',
         matricula: '123',
@@ -75,7 +75,7 @@ describe('UsersService', () => {
       //@ts-expect-error defined part of methods
       service['usersRepository'] = mockUserRepository;
       const user = await service.update('1', updateeUserDTO);
-  
+
       expect(mockUserRepository.save).toHaveBeenCalled();
       expect(user).toMatchObject(expectOutputUser);
     });
@@ -95,16 +95,15 @@ describe('UsersService', () => {
       };
       //@ts-expect-error defined part of methods
       service['usersRepository'] = mockUserRepository;
-  
+
       async function update() {
         await service.update(`${id}`, updateeUserDTO);
       }
-  
+
       await expect(update()).rejects.toThrow();
       expect(mockUserRepository.preload).toHaveBeenCalled();
       expect(mockUserRepository.save).not.toHaveBeenCalled();
     });
-
   });
 
   describe('Finding users', () => {
@@ -154,22 +153,21 @@ describe('UsersService', () => {
     });
     it('should throw a notFoundExeption when trying to find a user by id that not exists', async () => {
       const id = 1;
-  
+
       const mockUserRepository = {
         findById: jest.fn().mockReturnValue(Promise.resolve(null)),
         findOneBy: jest.fn().mockReturnValue(Promise.resolve(null)),
       };
       //@ts-expect-error defined part of methods
       service['usersRepository'] = mockUserRepository;
-  
+
       async function findbyId() {
         await service.findById(`${id}`);
       }
-  
+
       await expect(findbyId()).rejects.toThrow(NotFoundException);
       expect(mockUserRepository.findOneBy).toHaveBeenCalled();
     });
-
   });
 
   describe('Removing users', () => {
@@ -198,21 +196,20 @@ describe('UsersService', () => {
     });
     it('should throw a notFoundExeption when trying to remove a user that not exists', async () => {
       const id = 1;
-  
+
       const mockUserRepository = {
         findOne: jest.fn().mockReturnValue(Promise.resolve(null)),
         remove: jest.fn().mockReturnValue(Promise.resolve(null)),
       };
       //@ts-expect-error defined part of methods
       service['usersRepository'] = mockUserRepository;
-  
+
       async function removeById() {
         await service.remove(`${id}`);
       }
-  
+
       await expect(removeById()).rejects.toThrow(NotFoundException);
       expect(mockUserRepository.remove).not.toHaveBeenCalled();
     });
-
   });
 });

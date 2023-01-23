@@ -26,7 +26,7 @@ import {
 } from '@nestjs/swagger';
 
 @Controller('api/users')
-//@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 @ApiForbiddenResponse({ description: 'Access denied.' })
 //@Roles(Role.AdmMT, Role.Dev)
 @ApiTags('Users')
@@ -57,8 +57,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string): string {
-    this.usersService.remove(id);
-    return `user #${id} removed`;
+  async remove(@Param('id') id: string) {
+    return await this.usersService.remove(id);
   }
 }
