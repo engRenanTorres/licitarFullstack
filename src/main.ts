@@ -1,17 +1,22 @@
-import 'dotenv/config';
+//import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
+import { config } from 'dotenv';
+
+config({
+  path: process.env.NODE_ENV === 'test' ? '.env.testing' : '.env',
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Api backend OLS-MTC')
+    .setTitle('Api backend do Engenharia de concursos')
     .setDescription('Api para backend')
-    .setVersion('2.0')
+    .setVersion('1.0')
     .addBearerAuth()
     .build();
 

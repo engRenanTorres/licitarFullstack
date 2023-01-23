@@ -16,7 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto/update-user.dto';
 import { UseGuards } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles } from '../decorators/roles.decorator';
 import { Role } from './entities/role.enum';
 import {
   ApiBearerAuth,
@@ -28,7 +28,7 @@ import {
 @Controller('api/users')
 @UseGuards(AuthGuard('jwt'))
 @ApiForbiddenResponse({ description: 'Access denied.' })
-@Roles(Role.AdmMT, Role.Dev)
+//@Roles(Role.AdmMT, Role.Dev)
 @ApiTags('Users')
 @ApiBearerAuth('jwt')
 export class UsersController {
@@ -57,8 +57,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string): string {
-    this.usersService.remove(id);
-    return `user #${id} removed`;
+  async remove(@Param('id') id: string) {
+    return await this.usersService.remove(id);
   }
 }
