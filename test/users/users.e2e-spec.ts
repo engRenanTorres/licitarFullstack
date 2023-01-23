@@ -40,14 +40,6 @@ describe('Users: /users (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      // providers: [
-      //   {
-      //     provide: APP_GUARD,
-      //     useExisting: JwtStrategy
-      //   },
-      //   JwtStrategy,
-
-      // ]
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -70,15 +62,13 @@ describe('Users: /users (e2e)', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('', () => {
-    expect(1).toStrictEqual(1);
-  });
+
   it('should denny access to Create (POST) /users', async () => {
     const createTest = async () => {
       const createResponse = await request(app.getHttpServer())
         .post('/api/users')
         .send(user);
-      expect(createResponse.status).toStrictEqual(HttpStatus.FORBIDDEN);
+      expect(createResponse.status).toStrictEqual(HttpStatus.UNAUTHORIZED);
     };
     return await createTest();
   });
@@ -90,17 +80,18 @@ describe('Users: /users (e2e)', () => {
         .set('Authorization', `Bearer ${auth}`);
       id = createResponse.body.id;
       const expectedUser = {
-        nome: 'Renan',
-        login: 'renan',
-        roles: Role.AdmMT,
-        matricula: '9080',
-        email: 'renan@renan.com.br',
+        nome: 'Rodrigo',
+        login: 'rodrigo',
+        roles: Role.OperadorCC2,
+        matricula: '9081',
+        email: 'rod@rod.com.br',
       };
       expect(createResponse.status).toStrictEqual(HttpStatus.CREATED);
       expect(createResponse.body).toMatchObject(expectedUser);
     };
     return await createTest();
   });
+
   it.todo('should deny to create user when it send incorrect params');
   it('should denny access to update (PUT) /users', async () => {
     const updateUser: UpdateUserDto = {
@@ -113,7 +104,7 @@ describe('Users: /users (e2e)', () => {
       return await request(app.getHttpServer())
         .put('/api/users/' + id)
         .send(updateUser)
-        .expect(HttpStatus.FORBIDDEN);
+        .expect(HttpStatus.UNAUTHORIZED);
     };
     return await updateTest();
   });
@@ -130,13 +121,13 @@ describe('Users: /users (e2e)', () => {
         .send(updateUser)
         .set('Authorization', `Bearer ${auth}`)
         .expect(HttpStatus.OK)
-        .then(({ body }) => {
+        .then(({ body }) => { 
           const expectedUser = {
             nome: 'Augusto',
-            login: 'renan',
-            roles: Role.AdmMT,
-            matricula: '9080',
-            email: 'renan@renan.com.br',
+            login: 'rodrigo',
+            roles: Role.OperadorCC2,
+            matricula: '9081',
+            email: 'rod@rod.com.br',
           };
 
           expect(body).toMatchObject(expectedUser);
@@ -149,7 +140,7 @@ describe('Users: /users (e2e)', () => {
     const deleteTeste = async () => {
       return await request(app.getHttpServer())
         .delete(`/api/users/` + id)
-        .expect(HttpStatus.FORBIDDEN);
+        .expect(HttpStatus.UNAUTHORIZED);
     };
     return await deleteTeste();
   });
