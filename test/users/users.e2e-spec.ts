@@ -121,7 +121,7 @@ describe('Users: /users (e2e)', () => {
         .send(updateUser)
         .set('Authorization', `Bearer ${auth}`)
         .expect(HttpStatus.OK)
-        .then(({ body }) => { 
+        .then(({ body }) => {
           const expectedUser = {
             nome: 'Augusto',
             login: 'rodrigo',

@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { hashSync } from 'bcrypt';
 import { Role } from './role.enum';
+import { use } from 'passport';
 
 @Entity('Users')
 export class User {
@@ -38,6 +39,16 @@ export class User {
   dataCadastro: string;
   @Column({ name: 'id_grupo_funcionalidade', nullable: true })
   roles: Role;
+
+  constructor(user: Partial<User>) {
+    this.id = user?.id;
+    this.email = user?.email;
+    this.login = user?.login;
+    this.roles = user?.roles;
+    this.senha = user?.senha;
+    this.nome = user?.nome;
+    this.matricula = user?.matricula;
+  }
 
   @BeforeInsert()
   hasPassword() {

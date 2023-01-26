@@ -28,7 +28,7 @@ import {
 @Controller('api/users')
 @UseGuards(AuthGuard('jwt'))
 @ApiForbiddenResponse({ description: 'Access denied.' })
-//@Roles(Role.AdmMT, Role.Dev)
+@Roles(Role.AdmMT, Role.Dev)
 @ApiTags('Users')
 @ApiBearerAuth('jwt')
 export class UsersController {
