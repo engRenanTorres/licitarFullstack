@@ -9,12 +9,12 @@ import { MessagesHelper } from '../helpers/message.helper';
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super({
-      usernameField: 'login',
+      usernameField: 'email',
     });
   }
 
-  async validate(login: string, senha: string) {
-    const user = await this.authService.validateUser(login, senha);
+  async validate(email: string, password: string) {
+    const user = await this.authService.validateUser(email, password);
     if (!user) throw new UnauthorizedException(MessagesHelper.PASSWORD_CHECK);
     return user;
   }

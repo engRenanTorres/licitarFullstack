@@ -20,14 +20,14 @@ export class UsersService {
     return user;
   }
 
-  async findBylogin(login: string): Promise<User> | null {
-    const user = await this.usersRepository.findOneBy({ login: login });
+  async findByEmail(email: string): Promise<User> | null {
+    const user = await this.usersRepository.findOneBy({ email: email });
     try {
-      this.checkIfUserExiste(user, login);
+      this.checkIfUserExiste(user, email);
     } catch (error) {
       throw new NotFoundException(error.message);
     }
-    return await this.usersRepository.findOneBy({ login: login });
+    return await this.usersRepository.findOneBy({ email: email });
   }
 
   async create(createUserDTO: CreateUserDto) {

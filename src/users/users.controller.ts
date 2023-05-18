@@ -26,14 +26,14 @@ import {
 } from '@nestjs/swagger';
 
 @Controller('api/users')
-@UseGuards(AuthGuard('jwt'))
-@ApiForbiddenResponse({ description: 'Access denied.' })
-@Roles(Role.AdmMT, Role.Dev)
 @ApiTags('Users')
-@ApiBearerAuth('jwt')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Get('all')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('jwt')
+  @Roles(Role.ADM, Role.STAFF)
+  @ApiForbiddenResponse({ description: 'Access denied.' })
   findAll(): Promise<Array<User>> {
     return this.usersService.findAll();
   }

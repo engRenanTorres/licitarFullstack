@@ -3,18 +3,19 @@ version: '3.3'
 #acessar o bash do app: docker-compose start  + docker-compose exec app bash
 services:
   db:
-    image: mysql:8.0-debian
-    container_name: engconcmysql
+    image: mysql:8.0
+    container_name: licitarmysql
     networks:
       - development-network
     restart: always
-    environment: 
-      MYSQL_ROOT_PASSWORD: process.env.DB_PASS
+    environment:
+      MYSQL_DATABASE: licitarDB 
+      MYSQL_ROOT_PASSWORD: dblicitar
     volumes:
-      - ~/dev/docker/volumes/engconcurso:/var/lib/mysql
+      - ~/dev/docker/volumes/licitar:/var/lib/mysql
     tty: true
     ports:
-      - 5200:3306
+      - 3306:3306
 
   pgadmin:
     image: dpage/pgadmin4
@@ -48,7 +49,7 @@ services:
   app:
     build: .
     #entrypoint: .docker/entrypoint.sh
-    container_name: engconcBackend
+    container_name: licitarBackend
     ports:
       - 3000:3000
     volumes:

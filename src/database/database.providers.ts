@@ -21,7 +21,7 @@ export const databaseProviders = [
         entities: [join(__dirname, '..', '**', '*.entity.{ts,js}')],
         //synchronize: true, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
         //migrationsTableName: 'TbMarTelecomMigrations', se precisar mudar o nome da tabela migrations
-        //logging: true,
+        logging: true,
       });
 
       return dataSource.initialize();

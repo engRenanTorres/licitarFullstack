@@ -19,20 +19,18 @@ describe('UsersService', () => {
 
   it('should create a user', async () => {
     const expectOutputUser = {
-      nome: 'Usuario Teste',
+      name: 'Usuario Teste',
       matricula: '123',
       email: 'usuario@teste.com',
-      senha: 'S3nh@Dificil',
-      login: 'usuariot',
+      password: 'S3nh@Dificil',
       roles: Role.AdmMT,
     };
 
     const createUserDTO: CreateUserDto = {
-      nome: 'Usuario Teste',
+      name: 'Usuario Teste',
       matricula: '123',
       email: 'usuario@teste.com',
-      senha: 'S3nh@Dificil',
-      login: 'usuariot',
+      password: 'S3nh@Dificil',
       roles: Role.AdmMT,
     };
     const mockUserRepository = {
@@ -50,20 +48,18 @@ describe('UsersService', () => {
   describe('Updating user', () => {
     it('should call save user after update', async () => {
       const expectOutputUser = {
-        nome: 'Usuario Teste',
+        name: 'Usuario Teste',
         matricula: '123',
         email: 'usuario@teste.com',
-        senha: 'S3nh@Dificil',
-        login: 'usuariot',
+        password: 'S3nh@Dificil',
         roles: Role.AdmMT,
       };
 
       const updateeUserDTO: UpdateUserDto = {
-        nome: 'Usuario Teste',
+        name: 'Usuario Teste',
         matricula: '123',
         email: 'usuario@teste.com',
-        senha: 'S3nh@Dificil',
-        login: 'usuariot',
+        password: 'S3nh@Dificil',
         roles: Role.AdmMT,
       };
       const mockUserRepository = {
@@ -81,11 +77,10 @@ describe('UsersService', () => {
     });
     it('should throw a notFoundExeption when dont exists user with the selected id', async () => {
       const updateeUserDTO: UpdateUserDto = {
-        nome: 'Usuario Teste',
+        name: 'Usuario Teste',
         matricula: '123',
         email: 'usuario@teste.com',
-        senha: 'S3nh@Dificil',
-        login: 'usuariot',
+        password: 'S3nh@Dificil',
         roles: Role.AdmMT,
       };
       const mockUserRepository = {
@@ -110,11 +105,10 @@ describe('UsersService', () => {
     it('should list users', async () => {
       const expectOutputUsers = [
         {
-          nome: 'Usuario Teste',
+          name: 'Usuario Teste',
           matricula: '123',
           email: 'usuario@teste.com',
-          senha: 'S3nh@Dificil',
-          login: 'usuariot',
+          password: 'S3nh@Dificil',
           roles: Role.AdmMT,
         },
       ];
@@ -133,11 +127,10 @@ describe('UsersService', () => {
       const expectOutputUser = [
         {
           id: 1,
-          nome: 'Usuario Teste',
+          name: 'Usuario Teste',
           matricula: '123',
           email: 'usuario@teste.com',
-          senha: 'S3nh@Dificil',
-          login: 'usuariot',
+          password: 'S3nh@Dificil',
           roles: Role.AdmMT,
         },
       ];
@@ -176,11 +169,10 @@ describe('UsersService', () => {
       const expectOutputUser = [
         {
           id: 1,
-          nome: 'Usuario Teste',
+          name: 'Usuario Teste',
           matricula: '123',
           email: 'usuario@teste.com',
-          senha: 'S3nh@Dificil',
-          login: 'usuariot',
+          password: 'S3nh@Dificil',
           roles: Role.AdmMT,
         },
       ];

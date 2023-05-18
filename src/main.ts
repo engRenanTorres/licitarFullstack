@@ -18,7 +18,18 @@ async function bootstrap() {
     .setTitle('Api backend do Engenharia de concursos')
     .setDescription('Api para backend')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        // I was also testing it without prefix 'Bearer ' before the JWT
+        description: `Insira seu token aqui. Não precisa de Bearer.`,
+        name: 'Authorization',
+        bearerFormat: 'Bearer', // I`ve tested not to use this field, but the result was the same
+        scheme: 'Bearer',
+        type: 'http', // I`ve attempted type: 'apiKey' too
+        in: 'Header',
+      },
+      'jwt', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

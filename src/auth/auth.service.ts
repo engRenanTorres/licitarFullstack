@@ -11,10 +11,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(user: User) {
+  async login(user: User): Promise<{ token: string }> {
     const payload = {
       sub: user.id,
-      login: user.email,
+      email: user.email,
       role: user.roles,
     };
 
@@ -23,14 +23,14 @@ export class AuthService {
     };
   }
 
-  async validateUser(login: string, senha: string) {
+  async validateUser(email: string, password: string) {
     let user: User;
     try {
-      user = await this.userService.findBylogin(login);
+      user = await this.userService.findByEmail(email);
     } catch (error) {
       return null;
     }
-    const isPasswordValid = compareSync(senha, user.senha);
+    const isPasswordValid = compareSync(password, user.password);
     if (!isPasswordValid) return null;
     return user;
   }

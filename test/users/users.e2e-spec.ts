@@ -24,16 +24,15 @@ describe('Users: /users (e2e)', () => {
   let auth: string;
 
   const user: CreateUserDto = {
-    nome: 'Rodrigo',
-    login: 'rodrigo',
+    name: 'Rodrigo',
     roles: Role.OperadorCC2,
-    senha: 'TestBolado3!',
+    password: 'TestBolado3!',
     matricula: '9081',
     email: 'rod@rod.com.br',
   };
 
   const login = {
-    login: 'renan',
+    email: 'renan',
     password: 'TestBolado3!',
   };
 
@@ -80,8 +79,7 @@ describe('Users: /users (e2e)', () => {
         .set('Authorization', `Bearer ${auth}`);
       id = createResponse.body.id;
       const expectedUser = {
-        nome: 'Rodrigo',
-        login: 'rodrigo',
+        name: 'Rodrigo',
         roles: Role.OperadorCC2,
         matricula: '9081',
         email: 'rod@rod.com.br',
@@ -96,8 +94,8 @@ describe('Users: /users (e2e)', () => {
   it('should denny access to update (PUT) /users', async () => {
     const updateUser: UpdateUserDto = {
       ...user,
-      nome: 'Augusto',
-      senha: undefined,
+      name: 'Augusto',
+      password: undefined,
     };
 
     const updateTest = async () => {
@@ -111,8 +109,8 @@ describe('Users: /users (e2e)', () => {
   it('should update (PUT) /users', async () => {
     const updateUser: UpdateUserDto = {
       ...user,
-      nome: 'Augusto',
-      senha: undefined,
+      name: 'Augusto',
+      password: undefined,
     };
 
     const updateTest = async () => {
@@ -123,8 +121,7 @@ describe('Users: /users (e2e)', () => {
         .expect(HttpStatus.OK)
         .then(({ body }) => {
           const expectedUser = {
-            nome: 'Augusto',
-            login: 'rodrigo',
+            name: 'Augusto',
             roles: Role.OperadorCC2,
             matricula: '9081',
             email: 'rod@rod.com.br',
