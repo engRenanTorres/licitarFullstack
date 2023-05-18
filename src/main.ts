@@ -5,7 +5,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
 import { config } from 'dotenv';
-import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
+import { UnauthorizedInterceptor } from './common/errors/interceptors/unauthorized.interceptor';
+import { NotFoundInterceptor } from './common/errors/interceptors/notfound.interceptor';
+import { DatabaseInterceptor } from './common/errors/interceptors/database.interceptor';
+//import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 
 config({
   path: process.env.NODE_ENV === 'test' ? '.env.testing' : '.env',
@@ -44,7 +47,10 @@ async function bootstrap() {
   ); //whitelist garante que a api só recebera os parametros selecionados(parâmetros do objeto DTO)
   //forbidNonWhitelisted emite um erro se for enviador parâmetros a mais do que o esperado.
   //transform tipa o objeto diretamento com o seu dto
-  app.useGlobalFilters(new HttpExceptionFilter());
+  //app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalInterceptors(new UnauthorizedInterceptor());
+  app.useGlobalInterceptors(new NotFoundInterceptor());
+  app.useGlobalInterceptors(new DatabaseInterceptor());
   await app.listen(process.env.APP_PORT);
 }
 bootstrap();

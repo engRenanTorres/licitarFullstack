@@ -3,67 +3,75 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from './entities/role.enum';
 import { UpdateUserDto } from './dto/update-user.dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
+import { DataBaseError } from '../common/errors/types/DatabaseError';
 
 describe('UsersService', () => {
   let service: UsersService;
   let id: number;
+  let expectOutputUser: CreateUserDto;
+  let createUserDTO: CreateUserDto;
 
   beforeEach(async () => {
     service = new UsersService();
     id = 1;
   });
 
+  beforeAll(() => {
+    expectOutputUser = {
+      name: 'Usuario Teste',
+      cnpj: '12345678912',
+      email: 'usuario@teste.com',
+      password: 'S3nh@Dificil',
+    };
+
+    createUserDTO = {
+      name: 'Usuario Teste',
+      cnpj: '12345678912',
+      email: 'usuario@teste.com',
+      password: 'S3nh@Dificil',
+    };
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should create a user', async () => {
-    const expectOutputUser = {
-      name: 'Usuario Teste',
-      matricula: '123',
-      email: 'usuario@teste.com',
-      password: 'S3nh@Dificil',
-      roles: Role.AdmMT,
-    };
+  describe('create method', () => {
+    it('should create a user', async () => {
+      const mockUserRepository = {
+        create: () => jest.fn().mockReturnValue(Promise.resolve(createUserDTO)),
+        save: jest.fn().mockReturnValue(Promise.resolve(createUserDTO)),
+      };
+      //@ts-expect-error defined part of methods
+      service['usersRepository'] = mockUserRepository;
+      const newUser = await service.create(createUserDTO);
 
-    const createUserDTO: CreateUserDto = {
-      name: 'Usuario Teste',
-      matricula: '123',
-      email: 'usuario@teste.com',
-      password: 'S3nh@Dificil',
-      roles: Role.AdmMT,
-    };
-    const mockUserRepository = {
-      create: (dto: CreateUserDto) =>
-        jest.fn().mockReturnValue(Promise.resolve(createUserDTO)),
-      save: jest.fn().mockReturnValue(Promise.resolve(createUserDTO)),
-    };
-    //@ts-expect-error defined part of methods
-    service['usersRepository'] = mockUserRepository;
-    const newUser = await service.create(createUserDTO);
-
-    expect(mockUserRepository.save).toHaveBeenCalled();
-    expect(newUser).toMatchObject(expectOutputUser);
+      expect(mockUserRepository.save).toHaveBeenCalled();
+      expect(newUser).toMatchObject(expectOutputUser);
+    });
+    it('should throw a database error if there is an error saving the user', async () => {
+      const mockUserRepository = {
+        create: (createUserDTO: CreateUserDto) =>
+          jest.fn().mockReturnValue(createUserDTO),
+        save: jest.fn().mockRejectedValue(new DataBaseError('erro', 254)),
+      };
+      //@ts-expect-error defined part of methods
+      service['usersRepository'] = mockUserRepository;
+      await expect(service.create(createUserDTO)).rejects.toThrow(
+        DataBaseError,
+      );
+    });
   });
   describe('Updating user', () => {
     it('should call save user after update', async () => {
-      const expectOutputUser = {
-        name: 'Usuario Teste',
-        matricula: '123',
-        email: 'usuario@teste.com',
-        password: 'S3nh@Dificil',
-        roles: Role.AdmMT,
-      };
-
       const updateeUserDTO: UpdateUserDto = {
         name: 'Usuario Teste',
-        matricula: '123',
+        cnpj: '12345678912',
         email: 'usuario@teste.com',
         password: 'S3nh@Dificil',
-        roles: Role.AdmMT,
       };
       const mockUserRepository = {
-        update: (dto: CreateUserDto) =>
+        update: () =>
           jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
         preload: jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
         save: jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
@@ -78,10 +86,9 @@ describe('UsersService', () => {
     it('should throw a notFoundExeption when dont exists user with the selected id', async () => {
       const updateeUserDTO: UpdateUserDto = {
         name: 'Usuario Teste',
-        matricula: '123',
+        cnpj: '12345678912',
         email: 'usuario@teste.com',
         password: 'S3nh@Dificil',
-        roles: Role.AdmMT,
       };
       const mockUserRepository = {
         update: jest.fn().mockReturnValue(Promise.resolve(null)),
@@ -102,14 +109,14 @@ describe('UsersService', () => {
   });
 
   describe('Finding users', () => {
-    it('should list users', async () => {
+    it('should list all users', async () => {
       const expectOutputUsers = [
         {
           name: 'Usuario Teste',
           matricula: '123',
           email: 'usuario@teste.com',
           password: 'S3nh@Dificil',
-          roles: Role.AdmMT,
+          roles: Role.ADM,
         },
       ];
       const mockUserRepository = {
@@ -122,7 +129,7 @@ describe('UsersService', () => {
       expect(mockUserRepository.find).toHaveBeenCalled();
       expect(expectOutputUsers).toStrictEqual(users);
     });
-    it('should get one user', async () => {
+    it('should get one user when fetching by id', async () => {
       const id = 1;
       const expectOutputUser = [
         {
@@ -131,7 +138,7 @@ describe('UsersService', () => {
           matricula: '123',
           email: 'usuario@teste.com',
           password: 'S3nh@Dificil',
-          roles: Role.AdmMT,
+          roles: Role.ADM,
         },
       ];
       const mockUserRepository = {
@@ -173,7 +180,7 @@ describe('UsersService', () => {
           matricula: '123',
           email: 'usuario@teste.com',
           password: 'S3nh@Dificil',
-          roles: Role.AdmMT,
+          roles: Role.ADM,
         },
       ];
       const mockUserRepository = {
