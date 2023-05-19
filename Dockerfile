@@ -1,24 +1,36 @@
-# Base image
-FROM node:18
+# Use an official Node.js runtime as the base image
+FROM node:lts-alpine as builder
 
-# Create app directory
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install app dependencies
-RUN npm install
+# Install the project dependencies
+RUN npm ci --only=production
 
-# Bundle app source
+# Copy the application code to the container
 COPY . .
 
-# Creates a "dist" folder with the production build
+# Build the application
 RUN npm run build
 
-# Start the server using the production build
-CMD [ "npm run start:dev" ]
-#, "dist/main.js" ]
+# Use a lightweight Node.js runtime as the base image for the final image
+FROM node:lts-alpine
 
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the production dependencies from the builder stage
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+# Expose the port your Nest.js application listens on
+EXPOSE 3000
+
+# Set the command to run your Nest.js application
+CMD ["node", "dist/main"]
 
 

@@ -37,4 +37,4 @@ lerna-debug.log*
 # DB
 
 .env
-.docker/volumes/dbdatatests
+.docker/volumes/*

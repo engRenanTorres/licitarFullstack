@@ -12,22 +12,27 @@ services:
       MYSQL_DATABASE: licitarDB
       MYSQL_ROOT_PASSWORD: dblicitar
     volumes:
-      - ~/dev/docker/volumes/licitar:/var/lib/mysql
+      - ./.docker/volumes/licitar:/var/lib/mysql
     tty: true
     ports:
       - 3306:3306
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: engconcdb-pgadmin
-    tty: true
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    networks:
+      - development-network
+    links:
+      - db
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
-    ports:
-      - 8002:80
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
     depends_on:
       - db
+    ports:
+      - 8081:80
 
   dbtest:
     image: mysql:8.0
@@ -46,10 +51,10 @@ services:
 
   app:
     build: .
-    #entrypoint: .docker/entrypoint.sh
+    entrypoint: .docker/entrypoint.sh
     container_name: licitarBackend
     ports:
-      - 3000:3000
+      - 3001:3001
     volumes:
       - ~/dev/docker/volumes/engconcurso:/home/node/app
     depends_on:
