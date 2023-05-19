@@ -74,6 +74,7 @@ describe('UsersService', () => {
         update: () =>
           jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
         preload: jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
+        findOneBy: jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
         save: jest.fn().mockReturnValue(Promise.resolve(updateeUserDTO)),
       };
       //@ts-expect-error defined part of methods
@@ -93,6 +94,7 @@ describe('UsersService', () => {
       const mockUserRepository = {
         update: jest.fn().mockReturnValue(Promise.resolve(null)),
         preload: jest.fn().mockReturnValue(Promise.resolve(null)),
+        findOneBy: jest.fn().mockReturnValue(Promise.resolve(null)),
         save: jest.fn().mockReturnValue(Promise.resolve(null)),
       };
       //@ts-expect-error defined part of methods
@@ -172,7 +174,7 @@ describe('UsersService', () => {
 
   describe('Removing users', () => {
     it('should remove one user', async () => {
-      const id = 1;
+      const email = 'usuario@teste.com';
       const expectOutputUser = [
         {
           id: 1,
@@ -189,12 +191,12 @@ describe('UsersService', () => {
       };
       //@ts-expect-error defined part of methods
       service['usersRepository'] = mockUserRepository;
-      const user = await service.remove(`${id}`);
+      const user = await service.remove(email);
       expect(mockUserRepository.remove).toHaveBeenCalled();
       expect(expectOutputUser).toStrictEqual(user);
     });
     it('should throw a notFoundExeption when trying to remove a user that not exists', async () => {
-      const id = 1;
+      const email = 'myemail';
 
       const mockUserRepository = {
         findOne: jest.fn().mockReturnValue(Promise.resolve(null)),
@@ -204,7 +206,7 @@ describe('UsersService', () => {
       service['usersRepository'] = mockUserRepository;
 
       async function removeById() {
-        await service.remove(`${id}`);
+        await service.remove(email);
       }
 
       await expect(removeById()).rejects.toThrow(NotFoundException);

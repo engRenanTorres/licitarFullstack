@@ -20,10 +20,28 @@ export class UsersService implements OnModuleInit {
         name: 'Adm',
         cnpj: '00000000000',
         email: 'adm@adm.com',
-        password: 'SouAdm123',
+        password: 'IamAdm123',
         roles: Role.ADM,
       };
-      const user = this.usersRepository.create(adm); // Create apenas prepara o objeto sem salvar no bd
+      const staff: CreateSpecialUserDto = {
+        name: 'staff',
+        cnpj: '00000000001',
+        email: 'staff@staff.com',
+        password: 'IamStaf123',
+        roles: Role.STAFF,
+      };
+      const normal: CreateSpecialUserDto = {
+        name: 'Normal',
+        cnpj: '00000000002',
+        email: 'normal@normal.com',
+        password: 'IamNormal123',
+        roles: Role.USER,
+      };
+      const admUser = this.usersRepository.create(adm); // Create apenas prepara o objeto sem salvar no bd
+      await this.usersRepository.save(admUser);
+      const staffUser = this.usersRepository.create(staff); // Create apenas prepara o objeto sem salvar no bd
+      await this.usersRepository.save(staffUser);
+      const user = this.usersRepository.create(normal); // Create apenas prepara o objeto sem salvar no bd
       await this.usersRepository.save(user);
       return;
     }
@@ -63,20 +81,21 @@ export class UsersService implements OnModuleInit {
     }
   }
 
-  async update(id: string, updateUserDTO: UpdateUserDto) {
-    const user = await this.usersRepository.preload({
-      id: Number(id),
+  async update(email: string, updateUserDTO: UpdateUserDto) {
+    const user = await this.usersRepository.findOneBy({ email: email });
+    const userUpdated = await this.usersRepository.preload({
+      id: user?.id,
       ...updateUserDTO,
     });
-    this.checkIfUserExiste(user, id);
-    return await this.usersRepository.save(user);
+    this.checkIfUserExiste(user, String(user?.id));
+    return await this.usersRepository.save(userUpdated);
   }
 
-  async remove(id: string) {
+  async remove(email: string) {
     const user = await this.usersRepository.findOne({
-      where: { id: Number(id) },
+      where: { email },
     });
-    this.checkIfUserExiste(user, id);
+    this.checkIfUserExiste(user, String(user?.id));
     return await this.usersRepository.remove(user);
   }
 

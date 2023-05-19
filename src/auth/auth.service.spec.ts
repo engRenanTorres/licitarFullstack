@@ -1,88 +1,126 @@
-import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '../users/entities/role.enum';
 import { User } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
+import { AuthService } from './auth.service';
+import { NotFoundException } from '@nestjs/common';
+import { TokenPayload } from './models/jwt-payload.model';
+import { ReqHeaders } from './models/req-headers.model';
 
 describe('AuthService', () => {
-  let authService: AuthService;
   let userService: UsersService;
+  let authService: AuthService;
   let jwtService: JwtService;
+  let normalUser: User;
 
-  beforeEach(() => {
-    userService = createMock<UsersService>();
-    jwtService = createMock<JwtService>();
+  beforeEach(async () => {
+    userService = new UsersService();
+    jwtService = new JwtService();
     authService = new AuthService(userService, jwtService);
   });
 
+  beforeAll(() => {
+    normalUser = {
+      id: 1,
+      name: 'Usuario Teste',
+      email: 'usuario@teste.com',
+      password: 'S3nh@Dificil',
+      roles: Role.ADM,
+    } as User;
+  });
+
   describe('login', () => {
-    it('should return a JWT token', async () => {
-      const user: User = { id: 1, email: 'user@example.com', roles: ['admin'] };
-      const token = 'generated-token';
+    it('should return a token when calls login', async () => {
+      const token = 'Iam a encrypted token';
+      jest.spyOn(jwtService, 'sign').mockImplementation(() => token);
 
-      jwtService.sign.mockReturnValue(token);
-
-      const result = await authService.login(user);
-
-      expect(result).toEqual({ token });
+      expect(await authService.login(normalUser)).toStrictEqual({ token });
       expect(jwtService.sign).toHaveBeenCalledWith(
-        { sub: user.id, email: user.email, role: user.roles },
+        { sub: normalUser.id, email: normalUser.email, role: normalUser.roles },
         {},
       );
     });
   });
-
   describe('validateUser', () => {
     it('should return the user if the email and password are valid', async () => {
-      const email = 'user@example.com';
-      const password = 'password';
-      const user: User = {
-        id: 1,
-        email,
-        password: 'hashed-password',
-        roles: ['user'],
-      };
+      const email = normalUser.email;
+      const password = normalUser.password;
+      jest
+        .spyOn(userService, 'findByEmail')
+        .mockImplementation(() => Promise.resolve(normalUser));
+      jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => true);
 
-      userService.findByEmail.mockResolvedValue(user);
-      compareSync.mockReturnValue(true);
-
-      const result = await authService.validateUser(email, password);
-
-      expect(result).toEqual(user);
-      expect(userService.findByEmail).toHaveBeenCalledWith(email);
-      expect(compareSync).toHaveBeenCalledWith(password, user.password);
+      expect(await authService.validateUser(email, password)).toStrictEqual(
+        normalUser,
+      );
+      expect(userService.findByEmail).toHaveBeenCalledWith(normalUser.email);
+      expect(bcrypt.compareSync).toHaveBeenCalledWith(
+        password,
+        normalUser.password,
+      );
     });
-
-    it('should return null if the email is not found', async () => {
-      const email = 'nonexistent@example.com';
-      const password = 'password';
-
-      userService.findByEmail.mockResolvedValue(null);
-
-      const result = await authService.validateUser(email, password);
-
-      expect(result).toBeNull();
-      expect(userService.findByEmail).toHaveBeenCalledWith(email);
-      expect(compareSync).not.toHaveBeenCalled();
-    });
-
-    it('should return null if the password is invalid', async () => {
-      const email = 'user@example.com';
-      const password = 'invalid-password';
-      const user: User = {
-        id: 1,
-        email,
-        password: 'hashed-password',
-        roles: ['user'],
+    it('should return null if the email don`t exist in bd', async () => {
+      const email = normalUser.email;
+      const password = normalUser.password;
+      const mockUserRepository = {
+        findOneBy: () => jest.fn().mockReturnValue(Promise.resolve(null)),
       };
+      //@ts-expect-error defined part of methods
+      userService['usersRepository'] = mockUserRepository;
+      jest
+        .spyOn(userService, 'findByEmail')
+        .mockRejectedValue(() => new NotFoundException('bd error'));
+      jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => false);
 
-      userService.findByEmail.mockResolvedValue(user);
-      compareSync.mockReturnValue(false);
+      expect(await authService.validateUser(email, password)).toBeNull();
+      expect(userService.findByEmail).toHaveBeenCalledWith(normalUser.email);
+    });
+    it('should return null if the password is wrong', async () => {
+      const email = normalUser.email;
+      const password = 'wrongPassword';
+      const mockUserRepository = {
+        findOneBy: () => jest.fn().mockReturnValue(Promise.resolve(null)),
+      };
+      //@ts-expect-error defined part of methods
+      userService['usersRepository'] = mockUserRepository;
+      jest
+        .spyOn(userService, 'findByEmail')
+        .mockImplementation(() => Promise.resolve(normalUser));
+      jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => false);
 
-      const result = await authService.validateUser(email, password);
+      expect(await authService.validateUser(email, password)).toBeNull();
+      expect(userService.findByEmail).toHaveBeenCalledWith(normalUser.email);
+      expect(bcrypt.compareSync).toHaveBeenCalledWith(
+        password,
+        normalUser.password,
+      );
+    });
+  });
+  describe('validateAccessToken', () => {
+    it('should a valid session', async () => {
+      const headers = { authorization: '1234567token' } as ReqHeaders;
+      const payload: TokenPayload = { sub: String(normalUser.id), role: 1 };
+      const sessionResponseDTO = {
+        valid: true,
+        credencials: {
+          id: normalUser.id,
+          name: normalUser.name,
+          email: normalUser.email,
+          roles: normalUser.roles,
+        },
+      };
+      jest.spyOn(jwtService, 'verify').mockImplementation(() => payload);
+      jest.spyOn(jwtService, 'decode').mockImplementation(() => payload);
+      jest
+        .spyOn(userService, 'findById')
+        .mockImplementation(() => Promise.resolve(normalUser));
 
-      expect(result).toBeNull();
-      expect(userService.findByEmail).toHaveBeenCalledWith(email);
-      expect(compareSync).toHaveBeenCalledWith(password, user.password);
+      expect(await authService.validateAccessToken(headers)).toStrictEqual(
+        sessionResponseDTO,
+      );
+      expect(userService.findById).toHaveBeenCalledWith(String(normalUser.id));
+      expect(jwtService.decode).toHaveBeenCalledWith('token');
     });
   });
 });

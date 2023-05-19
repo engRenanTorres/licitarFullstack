@@ -19,9 +19,9 @@ export const databaseProviders = [
         password: process.env.DB_PASS,
         database: process.env.DB_TABLE,
         entities: [join(__dirname, '..', '**', '*.entity.{ts,js}')],
-        //synchronize: true, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
+        synchronize: process.env.NODE_ENV === 'test' ? true : false, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
         //migrationsTableName: 'TbMarTelecomMigrations', se precisar mudar o nome da tabela migrations
-        logging: true,
+        logging: false,
       });
 
       return dataSource.initialize();
@@ -36,8 +36,8 @@ export const dataSource = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_TABLE,
   entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-  synchronize: true, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
+  synchronize: process.env.NODE_ENV === 'test' ? true : false, //*** NÃO USAR EM PRODUÇÃO!! Pode apagar os dados das tabelas!! ***
   //migrationsTableName: 'TbMarTelecomMigrations', se precisar mudar o nome da tabela migrations
-  logging: true,
+  logging: false,
   migrations: [CreateTable1673218477897],
 });

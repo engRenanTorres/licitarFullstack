@@ -50,6 +50,8 @@ $ npm i
 $ npm run test
 
 # e2e tests
+Está precisando subir o dbtest em separado
+$ docker-compose up dbtest
 $ npm run test:e2e
 
 # test coverage

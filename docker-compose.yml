@@ -9,7 +9,7 @@ services:
       - development-network
     restart: always
     environment:
-      MYSQL_DATABASE: licitarDB 
+      MYSQL_DATABASE: licitarDB
       MYSQL_ROOT_PASSWORD: dblicitar
     volumes:
       - ~/dev/docker/volumes/licitar:/var/lib/mysql
@@ -22,7 +22,7 @@ services:
     container_name: engconcdb-pgadmin
     tty: true
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com 
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - 8002:80
@@ -30,21 +30,19 @@ services:
       - db
 
   dbtest:
-    image: mysql:8.0-debian
-    container_name: engconcmysqltest
+    image: mysql:8.0
+    container_name: licitarmysqltest
+    networks:
+      - development-network
     restart: always
-    environment: 
-      MYSQL_ROOT_PASSWORD: mysqltests
-      MYSQL_TCP_PORT: 3306
-      MYSQL_USER: tests
-      MYSQL_PASSWORD: password
+    environment:
+      MYSQL_DATABASE: licitarDB
+      MYSQL_ROOT_PASSWORD: dblicitar
     volumes:
-      - .docker/volumes/dbdatatests:/var/lib/mysql
+      - ./docker/volumes/licitar:/var/lib/mysqltest
     tty: true
     ports:
-      - 5201:3306
-    expose: 
-      - 3306
+      - 3307:3306
 
   app:
     build: .

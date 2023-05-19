@@ -1,22 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { UsersModule } from '../../src/users/users.module';
-import { AuthModule } from '../../src/auth/auth.module';
-import { DatabaseModule } from '../../src/database/database.module';
-import { User } from '../../src/users/entities/user.entity';
-import { Role } from '../../src/users/entities/role.enum';
 import { CreateUserDto } from '../../src/users/dto/create-user.dto';
 import { UpdateUserDto } from '../../src/users/dto/update-user.dto/update-user.dto';
-import { LocalStrategy } from '../../src/strategies/local.strategy';
-import { JwtStrategy } from '../../src/strategies/jwt.strategy';
-import { AuthService } from '../../src/auth/auth.service';
-import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
 import { AppModule } from '../../src/app.module';
-import { RolesGuard } from '../../src/auth/guard/role.guard';
 
 describe('Users: /users (e2e)', () => {
   let app: INestApplication;
@@ -25,15 +12,14 @@ describe('Users: /users (e2e)', () => {
 
   const user: CreateUserDto = {
     name: 'Rodrigo',
-    roles: Role.OperadorCC2,
-    password: 'TestBolado3!',
-    matricula: '9081',
+    cnpj: '12345678984',
     email: 'rod@rod.com.br',
+    password: 'IamNorma4l123!',
   };
 
   const login = {
-    email: 'renan',
-    password: 'TestBolado3!',
+    email: 'adm@adm.com',
+    password: 'IamAdm123',
   };
 
   beforeAll(async () => {
@@ -62,12 +48,12 @@ describe('Users: /users (e2e)', () => {
     await app.close();
   });
 
-  it('should denny access to Create (POST) /users', async () => {
+  it('should denny access to find all (GET) /all', async () => {
     const createTest = async () => {
-      const createResponse = await request(app.getHttpServer())
-        .post('/api/users')
-        .send(user);
-      expect(createResponse.status).toStrictEqual(HttpStatus.UNAUTHORIZED);
+      const createResponse = await request(app.getHttpServer()).get(
+        '/api/users/all',
+      );
+      expect(createResponse.status).toStrictEqual(HttpStatus.FORBIDDEN);
     };
     return await createTest();
   });
@@ -75,15 +61,17 @@ describe('Users: /users (e2e)', () => {
     const createTest = async () => {
       const createResponse = await request(app.getHttpServer())
         .post('/api/users')
-        .send(user)
-        .set('Authorization', `Bearer ${auth}`);
-      id = createResponse.body.id;
+        .send(user);
+      //.set('Authorization', `Bearer ${auth}`);
+      id = createResponse.body._id;
+      console.log(createResponse.body);
+
       const expectedUser = {
         name: 'Rodrigo',
-        roles: Role.OperadorCC2,
-        matricula: '9081',
+        roles: 3,
         email: 'rod@rod.com.br',
       };
+
       expect(createResponse.status).toStrictEqual(HttpStatus.CREATED);
       expect(createResponse.body).toMatchObject(expectedUser);
     };
@@ -102,7 +90,7 @@ describe('Users: /users (e2e)', () => {
       return await request(app.getHttpServer())
         .put('/api/users/' + id)
         .send(updateUser)
-        .expect(HttpStatus.UNAUTHORIZED);
+        .expect(HttpStatus.FORBIDDEN);
     };
     return await updateTest();
   });
@@ -115,15 +103,13 @@ describe('Users: /users (e2e)', () => {
 
     const updateTest = async () => {
       return await request(app.getHttpServer())
-        .put('/api/users/' + id)
+        .put('/api/users/' + user.email)
         .send(updateUser)
         .set('Authorization', `Bearer ${auth}`)
         .expect(HttpStatus.OK)
         .then(({ body }) => {
-          const expectedUser = {
+          const expectedUser: UpdateUserDto = {
             name: 'Augusto',
-            roles: Role.OperadorCC2,
-            matricula: '9081',
             email: 'rod@rod.com.br',
           };
 
@@ -136,15 +122,15 @@ describe('Users: /users (e2e)', () => {
   it('should denny access to remove (DELETE) /', async () => {
     const deleteTeste = async () => {
       return await request(app.getHttpServer())
-        .delete(`/api/users/` + id)
-        .expect(HttpStatus.UNAUTHORIZED);
+        .delete(`/api/users/` + user.email)
+        .expect(HttpStatus.FORBIDDEN);
     };
     return await deleteTeste();
   });
   it('should remove (DELETE) /', async () => {
     const deleteTeste = async () => {
       return await request(app.getHttpServer())
-        .delete(`/api/users/` + id)
+        .delete(`/api/users/` + user.email)
         .set('Authorization', `Bearer ${auth}`)
         .expect(HttpStatus.NO_CONTENT);
     };
