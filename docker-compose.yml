@@ -15,7 +15,7 @@ services:
       - ./.docker/volumes/licitar:/var/lib/mysql
     tty: true
     ports:
-      - 3306:3306
+      - 3307:3306
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -34,31 +34,18 @@ services:
     ports:
       - 8081:80
 
-  dbtest:
-    image: mysql:8.0
-    container_name: licitarmysqltest
-    networks:
-      - development-network
-    restart: always
-    environment:
-      MYSQL_DATABASE: licitarDB
-      MYSQL_ROOT_PASSWORD: dblicitar
-    volumes:
-      - ./docker/volumes/licitar:/var/lib/mysqltest
-    tty: true
-    ports:
-      - 3307:3306
-
   app:
+    depends_on:
+      - db
     build: .
-    entrypoint: .docker/entrypoint.sh
+    env_file:
+      - .env
+    #entrypoint: .docker/entrypoint.sh
     container_name: licitarBackend
     ports:
       - 3001:3001
     volumes:
       - ~/dev/docker/volumes/engconcurso:/home/node/app
-    depends_on:
-      - db
     networks:
       - development-network
 networks:
