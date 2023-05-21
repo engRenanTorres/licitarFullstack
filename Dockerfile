@@ -8,16 +8,20 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the project dependencies
-RUN npm ci --only=production
+RUN yarn install
+#ci --only=production
 
 # Copy the application code to the container
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # Use a lightweight Node.js runtime as the base image for the final image
 FROM node:lts-alpine
+
+#RUN rm -r node_modules
+#RUN yarn install --production
 
 # Set the working directory in the container
 WORKDIR /app

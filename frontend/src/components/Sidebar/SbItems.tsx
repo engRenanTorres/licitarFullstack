@@ -22,9 +22,9 @@ export const MItem: React.FC<PropsItem> = ({
   return (
     <div
       className={
-        selected === title
-          ? 'w-full rounded-lg-sm my-4 py-2 ' + defaultTWCss.bgSelected
-          : 'w-full rounded-lg my-4 py-2 '
+        selected === to
+          ? 'w-full rounded-lg my-4 py-2 ' + defaultTWCss.bgSelected
+          : 'w-full rounded-lg my-4 py-2 text-neutral-200'
       }
       onClick={() => setSelected(title)}
     >
@@ -52,7 +52,7 @@ export const ItemsGroupTitle: React.FC<Props> = ({ children }: Props) => {
   return (
     <h6
       className={
-        'flex justify-start mx-2 mb-2 mt-4 text-xs' + defaultTWCss.textColor
+        'flex justify-start mx-2 mb-2 mt-4 text-xs  text-blue-100' + defaultTWCss.textColor
       }
     >
       {children}

@@ -4,6 +4,7 @@ interface Props {
   color?: string;
   to?: string;
   circle?: boolean;
+  bg?: string;
   link?: boolean;
   href?: string;
   target?: string;
@@ -13,7 +14,8 @@ interface Props {
 }
 
 const TButton: React.FC<Props> = ({
-  color = 'indigo',
+  color = 'black',
+  bg = 'neutral',
   to = '',
   circle = false,
   href = '',
@@ -41,8 +43,15 @@ const TButton: React.FC<Props> = ({
         classes.push('text-emerald-500', 'focus:border-emerald-500');
         break;
       case 'neutral':
-        classes.push('text-neutral-500', 'focus:border-neutral-500');
+        classes.push('text-neutral-200', 'hover:border-neutral-200');
         break;
+      case 'white':
+        classes.push('text-white', 'hover:border-white');
+        break;
+      case 'black':
+        classes.push('text-black', 'hover:border-black');
+        break;
+
     }
   } else {
     classes.push('text-neutral-200', 'focus:ring-2', 'focus:ring-offset2');
@@ -55,6 +64,12 @@ const TButton: React.FC<Props> = ({
         break;
       case 'neutral':
         classes.push('text-neutral-500', 'focus:border-neutral-500');
+        break;
+      case 'white':
+        classes.push('text-white', 'hover:border-white');
+        break;
+      case 'black':
+        classes.push('text-black', 'hover:border-black');
         break;
     }
   }
@@ -69,7 +84,7 @@ const TButton: React.FC<Props> = ({
     );
   }
   return (
-    <>
+    <div className={`flex justify-center items-center rounded-lg bg-${bg}-200 hover:bg-${bg}-400 dark:bg-${bg}-800 dark:hover:bg-${bg}-600`}>
       {!!href && (
         <a href={href} className={classes.join(' ')} target={target}>
           {children}
@@ -89,7 +104,7 @@ const TButton: React.FC<Props> = ({
           {children}
         </button>
       )}
-    </>
+    </div>
   );
 };
 

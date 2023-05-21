@@ -5,9 +5,8 @@ import useAuth from '../../utils/hooks/useAuth';
 import defaultTWCss from '../../styles/theme';
 
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Licitação 1', href: 'bidding' },
+  { name: 'Sair', href: '#' },
 ];
 
 function classNames(...classes: string[]) {
@@ -42,7 +41,7 @@ const DropDown = () => {
               {({ active }) => (
                 <a
                   href={item.href}
-                  onClick={signout}
+                  onClick={item.name === 'Sair'? signout : () => 0}
                   className={classNames(
                     active ? 'bg-gray-100' : '',
                     'block px-4 py-2 text-sm text-gray-700',

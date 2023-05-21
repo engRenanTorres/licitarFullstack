@@ -1,4 +1,4 @@
-import { Signup } from '../containers/Signup';
+import { Signup } from '../containers/users/Signup';
 import SimplePageLayout from '../components/layout/SimpleLayout';
 
 export const SignupPage: React.FC = () => {

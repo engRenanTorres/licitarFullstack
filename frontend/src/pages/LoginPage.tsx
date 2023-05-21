@@ -1,4 +1,4 @@
-import Login from '../containers/Login';
+import Login from '../containers/users/Login';
 import SimplePageLayout from '../components/layout/SimpleLayout';
 
 export const LoginPage: React.FC = () => {

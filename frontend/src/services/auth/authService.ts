@@ -1,34 +1,28 @@
 //import getEnv from '../../utils/getEnv';
-import { HttpClient, HttpClientGet } from '../../utils/httpClient/httpClient';
+import axiosClient from '../../utils/httpClient/axiosClient';
 import { tokenService } from './tokenService';
 
 type LoginBody = { email: string; password: string };
-type loginResponse = { token: string };
-
-const backendAdress = 'http://localhost:3001';
+type LoginResponse = { token: string };
 
 export const authService = {
   async login({ email, password }: LoginBody) {
-    return HttpClient<LoginBody>('POST', backendAdress + '/api/auth/login', {
-      body: { email, password },
+    return axiosClient.post<LoginResponse>('/auth/login', {
+      email, password,
     }).then((response) => {
-      if (!response.ok) throw new Error('Usuário ou senha inválidos');
-      const body = response.body as loginResponse;
+      if (response.status !== 200) throw new Error('Usuário ou senha inválidos');
+      const body = response.data;
       if (body.token) tokenService.save(body.token);
       console.log(body);
     });
   },
   async getSession(): Promise<Credencials | false> {
-    const accessToken = tokenService.get();
-    return HttpClientGet(
-      backendAdress + '/api/auth/session',
-      {},
-      accessToken,
-    ).then((response) => {
-      if (!response.ok) {
+    return axiosClient.get('/auth/session')
+    .then((response) => {
+      if (response.status !== 200) {
         throw new Error('Não Autorizado');
       }
-      const body = response.body as Body;
+      const body = response.data as Body;
       return body.credencials ? body.credencials : false;
     });
   },

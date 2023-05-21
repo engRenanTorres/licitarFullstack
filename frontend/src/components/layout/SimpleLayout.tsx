@@ -10,7 +10,7 @@ interface Props {
 
 const SimplePageLayout: React.FC<Props> = ({ title, children }: Props) => {
   return (
-    <div className={'h-fit ' + defaultTWCss.bgGradient}>
+    <div className={'h-fit max-h-full overflow-auto' + defaultTWCss.bgGradient}>
       <Topbar />
       <CardContent title={title}>{children}</CardContent>
     </div>

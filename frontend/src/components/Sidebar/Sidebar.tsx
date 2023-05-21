@@ -7,8 +7,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/20/solid';
 import defaultTWCss from '../../styles/theme';
-import logoImg from '../../assets/favicon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ItemsGroupTitle, MItem } from './SbItems';
 
 type Props = {
@@ -16,9 +15,18 @@ type Props = {
 };
 
 const Sidebar: React.FC<Props> = () => {
-  const { icons, bgColordefault } = defaultTWCss;
+  const location = window.location.pathname
+  const { icons, bgGradient } = defaultTWCss;
   const [selected, setSelected] = useState<string>('Página inicial');
   const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  const handleLocation = () => {
+    setSelected(location)
+  }
+
+  useEffect(()=>{
+    handleLocation();
+  },[location])
 
   const handleCollapse = () => {
     setCollapsed(!collapsed);
@@ -26,7 +34,7 @@ const Sidebar: React.FC<Props> = () => {
   return (
     <aside
       className={
-        bgColordefault +
+        bgGradient +
         ` overflow-y-auto dark:text-neutral-200 w-${
           collapsed ? 12 : 60
         } h-auto block border-r border-neutral-200
@@ -47,7 +55,7 @@ const Sidebar: React.FC<Props> = () => {
       )}
       {!collapsed && (
         <button
-          className="w-full mb-3 p-3 flex justify-between"
+          className="w-full mb-3 p-3 flex justify-between text-blue-100"
           onClick={() => {
             handleCollapse();
           }}
@@ -59,12 +67,13 @@ const Sidebar: React.FC<Props> = () => {
       {!collapsed && (
         <div className="flex-1 items-center mb-12">
           <img
-            className="mx-auto h-28 w-auto"
-            src={logoImg}
+            className="mx-auto h-14 w-auto"
+            //src={logoImg}
+            src='/logoLicitarNegativo.png'
             alt="Your Company"
           />
-          <h2 className="text-center text-lg">Engenharia de concursos</h2>
-          <h3 className="text-center text-emerald-600">Simulador de provas</h3>
+          <h2 className="text-center  text-blue-100 text-lg">Processo de seleção</h2>
+          <h3 className="text-center text-blue-100">2023</h3>
         </div>
       )}
       <menu>
@@ -76,26 +85,35 @@ const Sidebar: React.FC<Props> = () => {
           selected={selected}
           setSelected={setSelected}
         />
-        <ItemsGroupTitle>dados </ItemsGroupTitle>
+
+        {!collapsed &&  <ItemsGroupTitle>licitações </ItemsGroupTitle>}
         <MItem
-          to="/questionslist"
-          title="Listar questões"
+          to="/bidding"
+          title="Licitação 1"
           icon={<ListBulletIcon className={icons} />}
           collapsed={collapsed}
           selected={selected}
           setSelected={setSelected}
         />
         <MItem
-          to="#"
-          title="Adicionar questões"
+          to="/underConstruction"
+          title="Nova licitação"
           icon={<SquaresPlusIcon className={icons} />}
           collapsed={collapsed}
           selected={selected}
           setSelected={setSelected}
         />
-        <ItemsGroupTitle>sobre </ItemsGroupTitle>
         <MItem
-          to="#"
+          to="/underConstruction"
+          title="Histórico"
+          icon={<SquaresPlusIcon className={icons} />}
+          collapsed={collapsed}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        {!collapsed && <ItemsGroupTitle>sobre </ItemsGroupTitle>}
+        <MItem
+          to="/underConstruction"
           title="Sobre nós"
           icon={<PlusCircleIcon className={icons} />}
           collapsed={collapsed}
