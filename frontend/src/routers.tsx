@@ -6,8 +6,9 @@ import Home from './pages/Home';
 import PrivateRoutes from './utils/PrivateRoutes';
 import { DashboardPage } from './pages/DashboardPage';
 import { AuthProvider } from './contexts/AuthContext';
-import { QuestionsListPage } from './pages/QuestionsListPage';
-import { CreateQuestionPage } from './pages/CreateQuestion';
+import { BiddingPage } from './pages/BiddingPage';
+import { CreateBiddingPage } from './pages/CreateBidding';
+import { UnderConstructionPage } from './pages/UnderConstructionPage copy';
 
 export default function AppRouter() {
   return (
@@ -16,14 +17,15 @@ export default function AppRouter() {
         <Routes>
           <Route element={<PrivateRoutes role={[1, 2]} />}>
             <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="bidding">
+              <Route path="" element={<BiddingPage />} />
+              <Route path="create" element={<CreateBiddingPage />} />
+            </Route>
           </Route>
           <Route path="/" element={<Home />} />
-          <Route path="questions">
-            <Route path="" element={<QuestionsListPage />} />
-            <Route path="create" element={<CreateQuestionPage />} />
-          </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
+          <Route path="underConstruction" element={<UnderConstructionPage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>

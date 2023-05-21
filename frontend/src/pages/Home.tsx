@@ -6,8 +6,8 @@ import DefaultLayout from '../components/layout/DefaultLayout';
 function Home() {
   return (
     <DefaultLayout
-      jumbotronTitle="Engenharia de concursos"
-      jumbotronSubtitle="Simulador de concursos de engenharia"
+      jumbotronTitle="Software de Disputa de Lances"
+      jumbotronSubtitle="Candidato Renan Torres"
       sideContent={HomeSideContent}
       sideContent2={
         <ContactsComp linkedin="https://www.linkedin.com/in/renan-torres-3ba43560/" />

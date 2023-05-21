@@ -1,5 +1,4 @@
 import {
-  ArrowLeftOnRectangleIcon,
   BellIcon,
   Cog8ToothIcon,
   MagnifyingGlassIcon,
@@ -59,9 +58,6 @@ const Topbar: React.FC = () => {
         <button className="px-2">
           <BellIcon className={icons} />
         </button>
-        <button className="px-2">
-          <Cog8ToothIcon className={icons} />
-        </button>
         <button
           className="dark:hover:text-purple-500 dark:text-neutral-200 px-2"
           onClick={
@@ -77,9 +73,6 @@ const Topbar: React.FC = () => {
             </Link>
           )}
         </button>
-        {/*<button className="pl-2" onClick={() => signout()}>
-          {currentUser && <ArrowLeftOnRectangleIcon className={icons} />}
-          </button>*/}
         {!currentUser && (
           <Link className="dark:text-neutral-200" to={'/login'}>
             Entre {/*<LoginIcon className="icon-button" />*/}

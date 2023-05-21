@@ -38,13 +38,15 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  ); //whitelist garante que a api só recebera os parametros selecionados(parâmetros do objeto DTO)
+  app
+    .useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    )
+    .enableCors(); //whitelist garante que a api só recebera os parametros selecionados(parâmetros do objeto DTO)
   //forbidNonWhitelisted emite um erro se for enviador parâmetros a mais do que o esperado.
   //transform tipa o objeto diretamento com o seu dto
   //app.useGlobalFilters(new HttpExceptionFilter());
