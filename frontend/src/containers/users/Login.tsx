@@ -2,27 +2,29 @@ import { useCallback } from 'react';
 import useAuth from '../../utils/hooks/useAuth';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import TButton from '../../components/ui/TButton';
 
 interface FormikValues {
   email: string;
   password: string;
 }
 
-
 const Login: React.FC = () => {
   const { signin } = useAuth();
 
   const validationSchema = Yup.object({
-    email: Yup.string().matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,'Email inválido').required('O Email é obrigatório'),
+    email: Yup.string()
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido')
+      .required('O Email é obrigatório'),
     password: Yup.string().required('O password é obrigatório'),
   });
   const initialValues = {
     email: '',
     password: '',
-  }
+  };
 
-
-  const handleLogin = useCallback(async (values: FormikValues) => {
+  const handleLogin = useCallback(
+    async (values: FormikValues) => {
       try {
         console.log(values);
         signin(values.email, values.password);
@@ -39,7 +41,7 @@ const Login: React.FC = () => {
         initialValues={initialValues}
         onSubmit={handleLogin}
         validationSchema={validationSchema}
-        >
+      >
         <Form className="space-y-6">
           <div>
             <label
@@ -58,7 +60,7 @@ const Login: React.FC = () => {
                 placeholder="email aqui..."
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              <ErrorMessage name='email' component='div' className='error' />
+              <ErrorMessage name="email" component="div" className="text-sm text-red-700" />
             </div>
           </div>
 
@@ -89,21 +91,23 @@ const Login: React.FC = () => {
                 placeholder="Password..."
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              <ErrorMessage name='password' component='div' className='error' />
+              <ErrorMessage name="password" component="div" className="text-sm text-red-700" />
             </div>
           </div>
 
           <div>
-            <button
+            {/*<button
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Logar
-            </button>
+            </button>*/}
+            <TButton submitType bg='indigo-600 '>
+              Logar
+            </TButton>
           </div>
         </Form>
       </Formik>
-
 
       <p className="mt-10 text-center text-sm">
         Não é membro?{' '}

@@ -15,8 +15,8 @@ const PrivateRoutes: React.FC<Props> = ({ role }: Props) => {
       return <Navigate to={'/login'} state={{ from: location }} />;
     return <Outlet />;
   };
-  console.log(currentUser);
-  console.log(role);
+  //console.log(currentUser);
+  //console.log(role);
   // eslint-disable-next-line prettier/prettier, no-constant-condition
   return loading ? <></> : checkAuth();
 };

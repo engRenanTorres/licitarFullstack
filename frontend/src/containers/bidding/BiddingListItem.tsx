@@ -1,13 +1,10 @@
 interface Bidding {
-  id: number;
+  id?: string;
   name: string;
-  offer: number;
+  value: number;
 }
 
-const BiddingListItem: React.FC<Bidding> = ({
-  offer,
-  name,
-}: Bidding) => {
+const BiddingListItem: React.FC<Bidding> = ({ value: offer, name }: Bidding) => {
   return (
     <div className="flex lg:flex-1 gap-1">
       <aside className="pr-2">{name}:</aside>

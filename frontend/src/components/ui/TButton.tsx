@@ -51,7 +51,6 @@ const TButton: React.FC<Props> = ({
       case 'black':
         classes.push('text-black', 'hover:border-black');
         break;
-
     }
   } else {
     classes.push('text-neutral-200', 'focus:ring-2', 'focus:ring-offset2');
@@ -84,7 +83,7 @@ const TButton: React.FC<Props> = ({
     );
   }
   return (
-    <div className={`flex justify-center items-center rounded-lg bg-${bg}-200 hover:bg-${bg}-400 dark:bg-${bg}-800 dark:hover:bg-${bg}-600`}>
+    <div>
       {!!href && (
         <a href={href} className={classes.join(' ')} target={target}>
           {children}
@@ -97,7 +96,7 @@ const TButton: React.FC<Props> = ({
       )}
       {!to && !href && (
         <button
-          className={classes.join(' ')}
+          className={`flex py-2 justify-center items-center min-w-full rounded-lg bg-${bg}-200 hover:bg-${bg}-400 dark:bg-${bg}-800 dark:hover:bg-${bg}-600 ` + classes.join(' ')}
           type={submitType ? 'submit' : 'button'}
           onClick={onClick}
         >

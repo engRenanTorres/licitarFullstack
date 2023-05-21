@@ -17,7 +17,6 @@ services:
     tty: true
     ports:
       - 3307:3306
-      - 3307:3306
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -65,7 +64,7 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - ~/dev/docker/volumes/engconcurso:/home/node/app
+      - ~/dev/.docker/volumes/licitar:/home/node/app
     networks:
       - development-network
 networks:

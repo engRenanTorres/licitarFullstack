@@ -1,10 +1,10 @@
-import { FormEventHandler, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosClient from "../../utils/httpClient/axiosClient";
+import { FormEventHandler, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosClient from '../../utils/httpClient/axiosClient';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { RegexHelper } from "../../helpers/regex.helper";
-import { MessagesHelper } from "../../helpers/message.helper";
+import { RegexHelper } from '../../helpers/regex.helper';
+import { MessagesHelper } from '../../helpers/message.helper';
 
 interface eventTarget extends HTMLFormControlsCollection {
   name: HTMLInputElement;
@@ -28,22 +28,27 @@ interface FormikValues {
   password: string;
 }
 
-
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     name: Yup.string().required('O nome é obrigatório'),
-    email: Yup.string().matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,'Email inválido').required('O Email é obrigatório'),
-    cnpj: Yup.string().matches(RegexHelper.cnpj, MessagesHelper.CNPJ_VALID).required('O CPF/CNPJ é obrigatório'),
-    password: Yup.string().matches(RegexHelper.password, MessagesHelper.PASSWORD_VALID).required('O password é obrigatório'),
+    email: Yup.string()
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido')
+      .required('O Email é obrigatório'),
+    cnpj: Yup.string()
+      .matches(RegexHelper.cnpj, MessagesHelper.CNPJ_VALID)
+      .required('O CPF/CNPJ é obrigatório'),
+    password: Yup.string()
+      .matches(RegexHelper.password, MessagesHelper.PASSWORD_VALID)
+      .required('O password é obrigatório'),
   });
   const initialValues = {
     name: '',
     email: '',
     cnpj: '',
     password: '',
-  }
+  };
 
   const handleCreateUser = useCallback(
     async (values: FormikValues) => {
@@ -79,12 +84,15 @@ export const Signup: React.FC = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={handleCreateUser}
-        validationSchema={validationSchema}>
-
+        validationSchema={validationSchema}
+      >
         <Form className="space-y-6">
           <div className="flex">
             <div className="mr-2">
-              <label htmlFor="name" className="block text-sm font-medium leading-6">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6"
+              >
                 Nome
               </label>
               <div className="mt-2">
@@ -96,7 +104,11 @@ export const Signup: React.FC = () => {
                   placeholder="nome aqui..."
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <ErrorMessage name='name' component='div' className='text-sm text-red-700' />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-sm text-red-700"
+                />
               </div>
             </div>
             <div>
@@ -116,10 +128,13 @@ export const Signup: React.FC = () => {
                   placeholder="Email aqui..."
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                <ErrorMessage name='email' component='div' className='text-sm text-red-700' />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-sm text-red-700"
+                />
               </div>
             </div>
-
           </div>
           <div>
             <label
@@ -137,7 +152,11 @@ export const Signup: React.FC = () => {
                 placeholder="CNPJ aqui..."
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              <ErrorMessage name='cnpj' component='div' className='text-sm text-red-700' />
+              <ErrorMessage
+                name="cnpj"
+                component="div"
+                className="text-sm text-red-700"
+              />
             </div>
           </div>
 
@@ -160,7 +179,11 @@ export const Signup: React.FC = () => {
                 placeholder="Password..."
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              <ErrorMessage name='password' component='div' className='text-sm text-red-700' />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-sm text-red-700"
+              />
             </div>
           </div>
 

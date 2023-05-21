@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateSpecialUserDto, CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto/update-user.dto';
@@ -12,23 +12,18 @@ export class UsersService implements OnModuleInit {
   @Inject('USER_REPOSITORY')
   private readonly usersRepository: Repository<User>;
 
+  private logger: Logger = new Logger('UserService');
+
   async onModuleInit(): Promise<void> {
     const users = await this.usersRepository.find();
     if (users.length === 0) {
-      console.log('(UsersModule) adm user has been created');
+      this.logger.log('adm user has been created');
       const adm: CreateSpecialUserDto = {
         name: 'Adm',
         cnpj: '00000000000',
         email: 'adm@adm.com',
         password: 'IamAdm123',
         roles: Role.ADM,
-      };
-      const staff: CreateSpecialUserDto = {
-        name: 'staff',
-        cnpj: '00000000001',
-        email: 'staff@staff.com',
-        password: 'IamStaf123',
-        roles: Role.STAFF,
       };
       const normal: CreateSpecialUserDto = {
         name: 'Normal',
@@ -37,18 +32,13 @@ export class UsersService implements OnModuleInit {
         password: 'IamNormal123',
         roles: Role.USER,
       };
-      const admUser = this.usersRepository.create(adm); // Create apenas prepara o objeto sem salvar no bd
+      const admUser = this.usersRepository.create(adm);
       await this.usersRepository.save(admUser);
-      const staffUser = this.usersRepository.create(staff); // Create apenas prepara o objeto sem salvar no bd
-      await this.usersRepository.save(staffUser);
-      const user = this.usersRepository.create(normal); // Create apenas prepara o objeto sem salvar no bd
+      const user = this.usersRepository.create(normal);
       await this.usersRepository.save(user);
       return;
     }
-    console.log(
-      '(UsersModule) dont need to create adm. users.length = ',
-      users.length,
-    );
+    this.logger.log('Dont need to create adm. users.length = ' + users.length);
     return;
   }
 

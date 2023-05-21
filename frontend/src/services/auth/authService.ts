@@ -7,18 +7,21 @@ type LoginResponse = { token: string };
 
 export const authService = {
   async login({ email, password }: LoginBody) {
-    return axiosClient.post<LoginResponse>('/auth/login', {
-      email, password,
-    }).then((response) => {
-      if (response.status !== 200) throw new Error('Usuário ou senha inválidos');
-      const body = response.data;
-      if (body.token) tokenService.save(body.token);
-      console.log(body);
-    });
+    return axiosClient
+      .post<LoginResponse>('/auth/login', {
+        email,
+        password,
+      })
+      .then((response) => {
+        if (response.status !== 200)
+          throw new Error('Usuário ou senha inválidos');
+        const body = response.data;
+        if (body.token) tokenService.save(body.token);
+        console.log(body);
+      });
   },
   async getSession(): Promise<Credencials | false> {
-    return axiosClient.get('/auth/session')
-    .then((response) => {
+    return axiosClient.get('/auth/session').then((response) => {
       if (response.status !== 200) {
         throw new Error('Não Autorizado');
       }

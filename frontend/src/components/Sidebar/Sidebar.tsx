@@ -15,18 +15,18 @@ type Props = {
 };
 
 const Sidebar: React.FC<Props> = () => {
-  const location = window.location.pathname
+  const location = window.location.pathname;
   const { icons, bgGradient } = defaultTWCss;
   const [selected, setSelected] = useState<string>('Página inicial');
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const handleLocation = () => {
-    setSelected(location)
-  }
+    setSelected(location);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     handleLocation();
-  },[location])
+  }, [location]);
 
   const handleCollapse = () => {
     setCollapsed(!collapsed);
@@ -69,10 +69,12 @@ const Sidebar: React.FC<Props> = () => {
           <img
             className="mx-auto h-14 w-auto"
             //src={logoImg}
-            src='/logoLicitarNegativo.png'
+            src="/logoLicitarNegativo.png"
             alt="Your Company"
           />
-          <h2 className="text-center  text-blue-100 text-lg">Processo de seleção</h2>
+          <h2 className="text-center  text-blue-100 text-lg">
+            Processo de seleção
+          </h2>
           <h3 className="text-center text-blue-100">2023</h3>
         </div>
       )}
@@ -86,7 +88,7 @@ const Sidebar: React.FC<Props> = () => {
           setSelected={setSelected}
         />
 
-        {!collapsed &&  <ItemsGroupTitle>licitações </ItemsGroupTitle>}
+        {!collapsed && <ItemsGroupTitle>licitações </ItemsGroupTitle>}
         <MItem
           to="/bidding"
           title="Licitação 1"

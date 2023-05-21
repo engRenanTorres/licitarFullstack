@@ -52,7 +52,8 @@ export const ItemsGroupTitle: React.FC<Props> = ({ children }: Props) => {
   return (
     <h6
       className={
-        'flex justify-start mx-2 mb-2 mt-4 text-xs  text-blue-100' + defaultTWCss.textColor
+        'flex justify-start mx-2 mb-2 mt-4 text-xs  text-blue-100' +
+        defaultTWCss.textColor
       }
     >
       {children}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { tokenService } from '../../services/auth/tokenService';
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_DEV + "/api",
+  baseURL: import.meta.env.VITE_BACKEND_DEV + '/api',
 });
 
 axiosClient.interceptors.request.use((config) => {
@@ -14,7 +14,7 @@ axiosClient.interceptors.request.use((config) => {
     }
     return config;
   } catch (error) {
-    throw new Error("Erro na injeção de token");
+    throw new Error('Erro na injeção de token');
   }
 });
 

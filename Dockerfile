@@ -17,11 +17,11 @@ COPY . .
 # Build the application
 RUN yarn build
 
+RUN rm -r node_modules
+RUN yarn install --production
+
 # Use a lightweight Node.js runtime as the base image for the final image
 FROM node:lts-alpine
-
-#RUN rm -r node_modules
-#RUN yarn install --production
 
 # Set the working directory in the container
 WORKDIR /app
@@ -32,7 +32,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
 # Expose the port your Nest.js application listens on
-EXPOSE 3000
+EXPOSE 3001
 
 # Set the command to run your Nest.js application
 CMD ["node", "dist/main"]

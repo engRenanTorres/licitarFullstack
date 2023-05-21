@@ -15,8 +15,9 @@ const BiddingLayout: React.FC<Props> = ({ title, children }: Props) => {
       <Sidebar />
       <div id="top" className="flex-1">
         <Topbar />
-        <CardContent logo={false} title={title} widthPercent={90}>{children}</CardContent>
-
+        <CardContent logo={false} title={title} widthPercent={90}>
+          {children}
+        </CardContent>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export default function AppRouter() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route element={<PrivateRoutes role={[1, 2]} />}>
+          <Route element={<PrivateRoutes role={[1, 2, 3]} />}>
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="bidding">
               <Route path="" element={<BiddingPage />} />
