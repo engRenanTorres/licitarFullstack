@@ -2,7 +2,7 @@ import axios from 'axios';
 import { tokenService } from '../../services/auth/tokenService';
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_DEV + '/api',
+  baseURL: import.meta.env.VITE_BACKEND + '/api',
 });
 
 axiosClient.interceptors.request.use((config) => {

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import useAuth from '../../utils/hooks/useAuth';
+//import useAuth from '../../utils/hooks/useAuth';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import TButton from '../../components/ui/TButton';
@@ -10,7 +10,7 @@ interface FormikValues {
 }
 
 const Login: React.FC = () => {
-  const { signin } = useAuth();
+  //const { signin } = useAuth();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -27,13 +27,13 @@ const Login: React.FC = () => {
     async (values: FormikValues) => {
       try {
         console.log(values);
-        signin(values.email, values.password);
+        //signin(values.email, values.password);
       } catch (error) {
         alert(error);
         console.log(error);
       }
     },
-    [signin],
+    [/*signin*/],
   );
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

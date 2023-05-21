@@ -1,6 +1,5 @@
 import {
   BellIcon,
-  Cog8ToothIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
 import { ThemeSwitcher } from '../ThemeSwitcher';

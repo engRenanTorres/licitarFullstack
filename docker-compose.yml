@@ -67,6 +67,26 @@ services:
       - ~/dev/.docker/volumes/licitar:/home/node/app
     networks:
       - development-network
+
+  frontend:
+    platform: linux/arm64/v8
+    #command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done;'
+    #for mac
+    command: sh -c 'sleep 8; yarn dev;'
+    #command: sh -c "npm rebuild esbuild && yarn dev"
+    depends_on:
+      - db
+    build: ./frontend
+    #entrypoint: .docker/entrypoint.sh
+    container_name: licitarFrontend
+    env_file:
+      - ./frontend/.env.production
+    ports:
+      - 3000:3000
+    volumes:
+      - ~/dev/.docker/volumes/licitar:/home/node/app
+    networks:
+      - development-network
 networks:
   development-network:
     driver: bridge

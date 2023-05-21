@@ -1,4 +1,4 @@
-import { FormEventHandler, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/httpClient/axiosClient';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -6,12 +6,6 @@ import * as Yup from 'yup';
 import { RegexHelper } from '../../helpers/regex.helper';
 import { MessagesHelper } from '../../helpers/message.helper';
 
-interface eventTarget extends HTMLFormControlsCollection {
-  name: HTMLInputElement;
-  email: HTMLInputElement;
-  cnpj: HTMLInputElement;
-  password: HTMLInputElement;
-}
 interface SignUpError extends Error {
   response: {
     data: {
