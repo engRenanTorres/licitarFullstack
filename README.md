@@ -18,14 +18,14 @@
 ## Rodando com Docker
 
 ```bash
-#Na primeira vez altere a configuração
-#do arquivo src/database.providers.ts
-#Coloque o campo synchronize como true "synchronize: true"
-$ docker-compose up
+# Na primeira vez, altere a configuração
+# do arquivo src/database.providers.ts
+# Coloque o campo synchronize como true "synchronize: true"
+$ docker-compose up --build
 
-#Depois os apps estarão disponíveis nos endereços abaixo:
-#frontend: http://localhost:5173/
-#backend: http://localhost:3001/api-docs
+# Depois os apps estarão disponíveis nos endereços abaixo:
+# frontend: http://localhost:5173/
+# backend: http://localhost:3001/api-docs
 
 ```
 ## Installation
@@ -34,8 +34,8 @@ $ docker-compose up
 
 ```bash
 
-#config mysql or mariadb ou suba o mysql com "docker-compose up db"
-#config .env file using .env.exemple as exemple
+# Configurar/Instalar mysql or mariadb ou suba o mysql com "docker-compose up db"
+# Setar .env file usando o .env.exemple as exemple
 
 $ npm i
 

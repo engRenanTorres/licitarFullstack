@@ -19,8 +19,8 @@ COPY . .
 #RUN yarn build
 RUN npm run build
 
-#RUN rm -r node_modules
-#RUN npm install --omit=dev
+RUN rm -r node_modules
+RUN npm install --omit=dev
 
 # Use a lightweight Node.js runtime as the base image for the final image
 FROM node:lts-alpine
