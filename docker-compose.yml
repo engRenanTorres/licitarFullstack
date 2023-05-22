@@ -18,6 +18,22 @@ services:
     ports:
       - 3307:3306
 
+  dbtest:
+    #platform: linux/arm64/v8
+    image: mysql:8.0
+    container_name: licitarmysqltest
+    networks:
+      - development-network
+    restart: always
+    environment:
+      MYSQL_DATABASE: licitarDB
+      MYSQL_ROOT_PASSWORD: dblicitar
+    volumes:
+      - ./.docker/volumes/licitar:/var/lib/mysql
+    tty: true
+    ports:
+      - 3308:3306
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
