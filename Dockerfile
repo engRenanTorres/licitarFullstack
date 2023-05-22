@@ -8,17 +8,19 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the project dependencies
-RUN yarn install
+#RUN yarn install
+RUN npm install
 #ci --only=production
 
 # Copy the application code to the container
 COPY . .
 
 # Build the application
-RUN yarn build
+#RUN yarn build
+RUN npm run build
 
-RUN rm -r node_modules
-RUN yarn install --production
+#RUN rm -r node_modules
+#RUN npm install --omit=dev
 
 # Use a lightweight Node.js runtime as the base image for the final image
 FROM node:lts-alpine
@@ -35,6 +37,6 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 3001
 
 # Set the command to run your Nest.js application
-CMD ["node", "dist/main"]
+CMD ["npm","run", "start"]
 
 

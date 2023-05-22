@@ -6,7 +6,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/')
+  /*@Get('/')
   @ApiTags('Inicial')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Api de boas vindas' })
@@ -16,5 +16,5 @@ export class AppController {
   })
   helloWorld() {
     return this.appService.getHello();
-  }
+  }*/
 }

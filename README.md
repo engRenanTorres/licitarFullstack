@@ -8,21 +8,33 @@
 [] As disputas devem iniciar automaticamente após o término da anterior, com um limite de tempo de 10 minutos para cada disputa.
 
 ### Requisitos do teste:
-[] Entrega em 6 dias corridos;
+[X] Entrega em 5 dias corridos;
 [X] Desenvolver utilizando Nestjs e TypeScript.
 [X] Implementar autenticação JWT para permitir apenas usuários logados acessem a aplicação
 [X] Usar um banco de dados SQL para armazenar dados do aplicativo. (Opcional)
-[] Implementar WebSocket para atualização em tempo real. (Opcional)
-[] Usar Class Validator para validar dados de entrada de requisições. (Opcional)
+[X] Implementar WebSocket para atualização em tempo real. (Opcional)
+[X] Usar Class Validator para validar dados de entrada de requisições. (Opcional)
 
-## Installation
+## Rodando com Docker
 
 ```bash
-#Option 1
+#Na primeira vez altere a configuração
+#do arquivo src/database.providers.ts
+#Coloque o campo synchronize como true "synchronize: true"
 $ docker-compose up
 
-#Option 2
-#config mysql or mariadb
+#Depois os apps estarão disponíveis nos endereços abaixo:
+#frontend: http://localhost:5173/
+#backend: http://localhost:3001/api-docs
+
+```
+## Installation
+
+## Instalação sem docker
+
+```bash
+
+#config mysql or mariadb ou suba o mysql com "docker-compose up db"
 #config .env file using .env.exemple as exemple
 
 $ npm i

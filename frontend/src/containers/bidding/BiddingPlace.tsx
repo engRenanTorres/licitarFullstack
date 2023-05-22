@@ -15,7 +15,7 @@ interface Offer {
 }
 
 
-const socket = io('http://192.168.1.122:3002/');
+const socket = io(import.meta.env.VITE_BACKEND);
 
 
 const BiddingPlace: React.FC = () => {

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-//import useAuth from '../../utils/hooks/useAuth';
+import useAuth from '../../utils/hooks/useAuth';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import TButton from '../../components/ui/TButton';
@@ -10,7 +10,7 @@ interface FormikValues {
 }
 
 const Login: React.FC = () => {
-  //const { signin } = useAuth();
+  const { signin } = useAuth();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -26,8 +26,8 @@ const Login: React.FC = () => {
   const handleLogin = useCallback(
     async (values: FormikValues) => {
       try {
-        console.log(values);
-        //signin(values.email, values.password);
+        //console.log(values);
+        signin(values.email, values.password);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
             >
               Logar
             </button>*/}
-            <TButton submitType bg='indigo-600 '>
+            <TButton submitType={true} bg='indigo-600 '>
               Logar
             </TButton>
           </div>

@@ -8,16 +8,20 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+#RUN yarn install
 RUN yarn install
 
 # Install Vite globally
-RUN yarn global add vite
+#RUN yarn global add vite
+RUN npm install -g vite
 
 # Copy all project files to the working directory
 COPY . .
 
+EXPOSE 5173
+
 # Run the development server with Vite
 CMD ["vite", "--host", "0.0.0.0"]
-
+#CMD ["yarn","dev"]
 
 
