@@ -1,14 +1,14 @@
 # Teste para a entrevista da Licitar Digital
 
-Frontend: http:localhost:5173
+Frontend: http://localhost:5173
 
-backend: http:localhost:3001
+backend: http://localhost:3001
 
 ## Frontend Requisitos:
 
 [X] Desenvolver utilizando React e TypeScript.
 
-[] Usar MaterialUI como framework UI. (opcional)
+[ ] Usar MaterialUI como framework UI. (opcional)
 
 [X] Usar Formik para gerenciamento de formulários. (opcional)
 
@@ -33,9 +33,9 @@ referência e menor que o último lance, respeitando o intervalo entre lances.
 
 ## Funcionalidades do Backend:
 
-[] Implementar uma API que permita a criação de disputas e lances.
+[ ] Implementar uma API que permita a criação de disputas e lances.
 
-[] As disputas devem iniciar automaticamente após o término da anterior, com um limite de tempo de 10 minutos para cada disputa.
+[ ] As disputas devem iniciar automaticamente após o término da anterior, com um limite de tempo de 10 minutos para cada disputa.
 
 ## Requisitos do teste:
 
